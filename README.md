@@ -1,92 +1,104 @@
-Food Delivery aplikacija
-Ovo je jednostavna web aplikacija za pregled restorana i njihove ponude jela, razvijena pomoću programskog jezika Java i Spring Boot frameworka. 
-Aplikacija omogućava korisnicima da pregledaju restorane, istraže njihove menije i vide objedinjenu listu svih dostupnih jela.
+🍽️ Food Delivery aplikacija
+Jednostavna web aplikacija za pregled restorana i njihovih menija, razvijena pomoću programskog jezika Java i Spring Boot frameworka. Aplikacija omogućava korisnicima da pregledaju dostupne restorane, istraže njihovu ponudu jela i vide detaljne informacije o svakom restoranu.
 
-Funkcionalnosti aplikacije
-Prikaz restorana: Pregled svih dostupnih restorana s osnovnim informacijama, kao što su grad, vrsta kuhinje, ocjena i broj dostupnih jela.
+✨ Funkcionalnosti
+🏪 Prikaz restorana – Pregled svih dostupnih restorana uz informacije kao što su grad, vrsta kuhinje, ocjena i broj dostupnih jela.
 
-Prikaz jela: Pregled svih jela koja nude restorani.
+🍕 Prikaz jela – Pregled objedinjene liste jela koja nude svi restorani.
 
-Detalji restorana: Klikom na odabrani restoran otvara se posebna stranica s informacijama o restoranu i njegovim menijem, uključujući cijene i kategorije jela.
+📋 Detalji restorana – Prikaz detaljnih informacija o odabranom restoranu, uključujući meni, cijene jela i kategorije hrane.
 
-Oznake za vegetarijanska jela: Jela su označena prema tome jesu li vegetarijanska ili nisu.
+🥗 Oznake za vegetarijanska jela – Jednostavno prepoznavanje jela koja su vegetarijanska.
 
-Jednostavna navigacija: Omogućen je jednostavan prelazak između liste restorana, liste jela i stranica s detaljima pojedinačnih restorana.
+🧭 Jednostavna navigacija – Kretanje između liste restorana, liste jela i stranica s detaljima pojedinačnih restorana.
 
-Korištene tehnologije
-Java: Osnovni programski jezik korišten za razvoj aplikacije.
+🛠️ Korištene tehnologije
+Tehnologija	Opis
+Java	Osnovni programski jezik korišten za razvoj aplikacije.
+Spring Boot	Olakšava razvoj i pokretanje Java web aplikacija.
+Spring MVC	Obrađuje HTTP zahtjeve i povezuje kontrolere s prikazom podataka.
+Thymeleaf	Omogućava generisanje dinamičkih HTML stranica pomoću podataka iz Java objekata.
+Maven	Upravlja zavisnostima projekta i omogućava njegovu izgradnju.
+📁 Struktura projekta
+Projekat koristi standardnu Maven strukturu direktorija.
 
-Spring Boot: Framework koji olakšava razvoj i pokretanje Java web aplikacija.
+food-delivery-app/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── org/example/food/
+│   │   │       ├── FoodApplication.java
+│   │   │       ├── controller/
+│   │   │       │   └── appcontroller.java
+│   │   │       ├── data/
+│   │   │       │   └── demodata.java
+│   │   │       └── model/
+│   │   │           ├── meal.java
+│   │   │           └── restaurant.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── templates/
+│   │           ├── action.html
+│   │           ├── listA.html
+│   │           └── listB.html
+│   └── test/
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── README.md
+📌 Glavne komponente
+FoodApplication.java – Glavna klasa koja služi za pokretanje Spring Boot aplikacije.
 
-Spring MVC: Koristi se za organizaciju aplikacije, obradu HTTP zahtjeva i povezivanje kontrolera s prikazom podataka.
+controller/appcontroller.java – Obrađuje zahtjeve korisnika i određuje koje stranice treba prikazati.
 
-Thymeleaf: Omogućava prikaz podataka iz Java objekata na HTML stranicama.
+data/demodata.java – Sadrži unaprijed definisane probne podatke o restoranima i jelima. Aplikacija ne koristi bazu podataka za pohranu ovih podataka.
 
-Maven: Alat za upravljanje bibliotekama i zavisnostima projekta te izgradnju aplikacije.
+model/ – Sadrži modele Meal i Restaurant koji predstavljaju jela i restorane.
 
-Pokretanje aplikacije
+templates/ – Sadrži HTML predloške koji se prikazuju pomoću Thymeleafa:
+
+action.html – Prikazuje detalje restorana i njegov meni.
+
+listA.html – Prikazuje listu svih restorana.
+
+listB.html – Prikazuje sva dostupna jela.
+
+🚀 Pokretanje aplikacije
 Slijedite navedene korake kako biste preuzeli projekat i pokrenuli ga na svom računaru.
 
-Preduvjeti
-Instaliran JDK 17 ili noviji.
+Preduslovi
+Prije pokretanja aplikacije potrebno je imati instalirano:
 
-Instaliran Git.
+JDK 17 ili noviji
 
-Instalacija i pokretanje
+Git
+
 1. Kloniranje repozitorija
-
-U terminalu izvršite sljedeće naredbe:
+Otvorite terminal i izvršite sljedeću naredbu:
 
 git clone https://github.com/aminaheljaa/food-delivery-app.git
+Zatim uđite u direktorij projekta:
+
 cd food-delivery-app
-2. Pokretanje aplikacije pomoću Maven Wrappera
+2. Pokretanje aplikacije
+Na Windows operativnom sistemu izvršite naredbu:
 
-Na Windows operativnom sistemu izvršite:
-
-./mvnw.cmd spring-boot:run
-Aplikacija će se pokrenuti na zadanim postavkama, na portu 8080.
+.\mvnw.cmd spring-boot:run
+Maven Wrapper će, ako je potrebno, preuzeti odgovarajuću verziju Mavena i pokrenuti aplikaciju.
 
 3. Pristup aplikaciji
-
-Otvorite web preglednik i unesite adresu:
+Nakon uspješnog pokretanja aplikacije, otvorite web preglednik i unesite adresu:
 
 http://localhost:8080
 
-Struktura projekta
-Projekat koristi standardnu Maven strukturu direktorija.
+💡 Dodatne napomene
+Aplikacija koristi unaprijed definisane probne podatke o restoranima i jelima.
 
-src/
-├── main/
-│   ├── java/org/example/food/
-│   │   ├── FoodApplication.java
-│   │   ├── controller/
-│   │   │   └── appcontroller.java
-│   │   ├── data/
-│   │   │   └── demodata.java
-│   │   └── model/
-│   │       ├── meal.java
-│   │       └── restaurant.java
-│   └── resources/
-│       ├── application.properties
-│       └── templates/
-│           ├── action.html
-│           ├── listA.html
-│           └── listB.html
-└── test/
-Opis glavnih dijelova projekta:
+Nije potrebno podešavati bazu podataka.
 
-FoodApplication.java – glavna klasa za pokretanje aplikacije.
+Maven Wrapper je uključen u projekat kako bi se olakšalo njegovo pokretanje bez zasebne instalacije Mavena.
 
-controller/appcontroller.java – obrađuje zahtjeve korisnika i određuje koje će se stranice prikazati.
+🎯 Cilj projekta
+Cilj projekta je demonstrirati razvoj jednostavne Java web aplikacije korištenjem tehnologija Spring Boot, Spring MVC i Thymeleaf, s fokusom na prikaz informacija o restoranima i dinamičko prikazivanje njihovih menija.
 
-data/demodata.java – sadrži unaprijed definisane podatke o restoranima i jelima, bez korištenja baze podataka.
-
-model/ – sadrži modele Meal i Restaurant koji predstavljaju jela i restorane.
-
-templates/ – sadrži HTML stranice izrađene pomoću Thymeleafa:
-
-action.html – prikaz detalja restorana i njegovog menija.
-
-listA.html – prikaz svih restorana.
-
-listB.html – prikaz svih dostupnih jela.
+⭐ Istražite izvorni kod i način implementacije aplikacije.
