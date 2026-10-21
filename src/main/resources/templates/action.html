@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Details | Food Delivery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+            color: #263238;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .header {
+            background: #173b32;
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .meal {
+            background: white;
+            padding: 18px;
+            margin-top: 14px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            background: #e87535;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .price {
+            color: #18794e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1 th:text="${restaurant.name}">Restaurant name</h1>
+
+        <p>
+            📍 <span th:text="${restaurant.city}">City</span>
+        </p>
+
+        <p>
+            Cuisine:
+            <span th:text="${restaurant.cuisine}">Cuisine</span>
+        </p>
+
+        <p>
+            ⭐ Rating:
+            <span th:text="${restaurant.rating}">5.0</span>
+        </p>
+    </div>
+
+    <h2>Menu</h2>
+
+    <p th:if="${#lists.isEmpty(restaurant.meals)}">
+        This restaurant currently has no meals.
+    </p>
+
+    <div th:each="meal : ${restaurant.meals}">
+        <div class="meal">
+            <div>
+                <h3 th:text="${meal.name}">Meal name</h3>
+                <p th:text="${meal.category}">Category</p>
+                <p th:if="${meal.vegetarian}">🌱 Vegetarian</p>
+            </div>
+
+            <p class="price">
+                <span th:text="${#numbers.formatDecimal(meal.price, 1, 2)}">0.00</span>
+                KM
+            </p>
+        </div>
+    </div>
+
+    <a class="button" th:href="@{/a}">← Back to restaurants</a>
+
+    <a class="button" th:href="@{/b}">Explore all meals</a>
+
+</div>
+
+</body>
+</html>
