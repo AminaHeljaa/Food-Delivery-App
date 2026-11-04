@@ -1,97 +1,443 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="bs" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>AMARÉ | Restorani</title>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurants | Food Delivery</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 30px;
-            color: #263238;
-        }
+    <meta name="theme-color" content="#541f29">
 
-        header {
-            background: #173b32;
-            color: white;
-            padding: 24px;
-            border-radius: 14px;
-        }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        nav a {
-            color: white;
-            margin-right: 20px;
-            font-weight: bold;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-top: 25px;
-        }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px #00000010;
-        }
+    <link th:href="@{/css/amare.css}" rel="stylesheet">
 
-        .button {
-            display: inline-block;
-            background: #e87535;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-        }
-    </style>
+    <script>
+        (function () {
+            const saved = localStorage.getItem('amare-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
 </head>
+
 <body>
 
-<header>
-    <h1>🍽️ Food Delivery</h1>
-    <p>Discover restaurants and find your next favourite meal.</p>
+<!-- NAVIGACIJA -->
+<nav class="navbar navbar-expand-lg amare-nav sticky-top">
+    <div class="container">
 
-    <nav>
-        <a th:href="@{/a}">Restaurants</a>
-        <a th:href="@{/b}">Meals</a>
-    </nav>
+        <a class="navbar-brand amare-brand" href="/a">
+            AMARÉ<span>.</span>
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNav"
+                aria-controls="mainNav"
+                aria-expanded="false"
+                aria-label="Otvori navigaciju">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+
+            <ul class="navbar-nav align-items-lg-center me-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/a">Restorani</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/b">Meni</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/reviews">Utisci</a>
+                </li>
+            </ul>
+
+            <button class="theme-toggle" id="themeToggle" type="button">
+                <i class="fa-solid fa-moon theme-icon"></i>
+                <span class="theme-label">Tamni način</span>
+            </button>
+
+        </div>
+    </div>
+</nav>
+
+<!-- GLAVNI HERO -->
+<header class="hero hero-restaurants">
+
+    <div class="hero-shade"></div>
+
+    <div class="container hero-content" data-reveal>
+
+        <span class="eyebrow light-eyebrow">
+            <span></span>
+            SAVREMENI KULINARSKI DOŽIVLJAJ
+        </span>
+
+        <h1>
+            Mjesto gdje<br>
+            <em>okus postaje uspomena.</em>
+        </h1>
+
+        <p>
+            Pažljivo birani sastojci, iskrena gostoljubivost
+            i trenuci kojima se uvijek vraćate.
+        </p>
+
+        <a href="/b" class="btn btn-amare btn-light-hero">
+            Istraži naš meni
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+    <div class="hero-side-note">
+        AMARÉ · THE ART OF DINING
+    </div>
+
+    <a href="#locations" class="scroll-cue">
+        <span></span>
+        SKROLAJTE
+    </a>
+
 </header>
 
-<h2>Available Restaurants</h2>
+<main>
 
-<div class="grid">
-    <div class="card" th:each="restaurant : ${restaurants}">
-        <h3 th:text="${restaurant.name}">Restaurant name</h3>
+    <!-- RESTORANI -->
+    <section class="section-space container" id="locations">
 
-        <p>
-            📍 <span th:text="${restaurant.city}">City</span>
-        </p>
+        <div class="section-heading" data-reveal>
 
-        <p>
-            Cuisine:
-            <strong th:text="${restaurant.cuisine}">Cuisine</strong>
-        </p>
+            <div>
+                <span class="eyebrow">PRONAĐITE NAS</span>
 
-        <p>
-            ⭐ <span th:text="${restaurant.rating}">5.0</span>
-        </p>
+                <h2>
+                    Naše <em>lokacije</em>
+                </h2>
+            </div>
 
-        <p>
-            Available meals:
-            <strong th:text="${#lists.size(restaurant.meals)}">0</strong>
-        </p>
+            <p>
+                Svaka lokacija nosi isti potpis –
+                kvalitet, toplinu i pažnju prema svakom detalju.
+            </p>
 
-        <a class="button"
-           th:href="@{/a/action/{id}(id=${restaurant.id})}">
-            View restaurant
-        </a>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Kartice restorana -->
+            <div class="col-md-6 col-xl-4"
+                 th:each="r, stat : ${restaurants}">
+
+                <article class="restaurant-card reveal-card">
+
+                    <div class="restaurant-card-image">
+
+                        <img
+                                th:src="${r.imageUrl != null and !r.imageUrl.isEmpty()
+                                ? r.imageUrl
+                                : (stat.index % 3 == 0
+                                    ? 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85'
+                                    : (stat.index % 3 == 1
+                                        ? 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=85'
+                                        : 'https://images.unsplash.com/photo-1515003197210-e0cd7184f8b6?auto=format&fit=crop&w=1000&q=85'))}"
+                                alt="Slika restorana"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85';">
+
+                        <span class="image-index"
+                              th:text="${stat.index + 1 < 10 ? '0' + (stat.index + 1) : stat.index + 1}">
+                            01
+                        </span>
+
+                    </div>
+
+                    <div class="restaurant-card-body">
+
+                        <div class="restaurant-card-top">
+
+                            <span class="eyebrow">
+                                AMARÉ EXPERIENCE
+                            </span>
+
+                            <span class="rating-pill">
+                                <i class="fa-solid fa-star"></i>
+
+                                <span th:text="${r.rating}">
+                                    4.9
+                                </span>
+                            </span>
+
+                        </div>
+
+                        <h3 th:text="${r.name}">
+                            AMARÉ Sarajevo
+                        </h3>
+
+                        <p class="location-line">
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span th:text="${r.city}">
+                                Sarajevo
+                            </span>
+                        </p>
+
+                        <div class="restaurant-card-bottom">
+
+                            <span>
+                                <small>VRSTA KUHINJE</small>
+
+                                <strong th:text="${r.cuisine}">
+                                    Mediterranean
+                                </strong>
+                            </span>
+
+                            <span class="ornament">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+            <!-- Ako nema restorana -->
+            <div class="col-12"
+                 th:if="${#lists.isEmpty(restaurants)}">
+
+                <div class="empty-state">
+
+                    <i class="fa-solid fa-utensils"></i>
+
+                    <h3>Još nema lokacija</h3>
+
+                    <p>
+                        Dodajte prvi AMARÉ restoran
+                        i započnite svoju priču.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DODAVANJE RESTORANA -->
+        <div class="add-panel" data-reveal>
+
+            <div>
+
+                <span class="eyebrow">
+                    RASTEMO ZAJEDNO
+                </span>
+
+                <h3>
+                    Nova lokacija počinje <em>ovdje.</em>
+                </h3>
+
+                <p>
+                    Dodajte restoran u AMARÉ kolekciju.
+                </p>
+
+            </div>
+
+            <button class="btn btn-amare"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addRestaurantModal">
+
+                <i class="fa-solid fa-plus"></i>
+                Dodaj restoran
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- CITAT -->
+    <section class="quote-band">
+
+        <div class="container" data-reveal>
+
+            <span class="quote-mark">“</span>
+
+            <p>
+                Dobra hrana okuplja ljude.
+                <em>Nezaboravna iskustva ih vraćaju.</em>
+            </p>
+
+            <span class="eyebrow">
+                AMARÉ PHILOSOPHY
+            </span>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- MODAL ZA DODAVANJE RESTORANA -->
+<div class="modal fade"
+     id="addRestaurantModal"
+     tabindex="-1"
+     aria-labelledby="addRestaurantTitle"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content amare-modal">
+
+            <form th:action="@{'/restaurants/add'}" method="post">
+
+                <div class="modal-header">
+
+                    <div>
+                        <span class="eyebrow">
+                            AMARÉ COLLECTION
+                        </span>
+
+                        <h2 class="modal-title serif"
+                            id="addRestaurantTitle">
+                            Nova lokacija
+                        </h2>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Zatvori">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <label class="form-label">
+                        Naziv restorana
+                    </label>
+
+                    <input type="text"
+                           name="name"
+                           class="form-control amare-input"
+                           placeholder="Npr. AMARÉ Sarajevo"
+                           required>
+
+                    <label class="form-label mt-3">
+                        Grad
+                    </label>
+
+                    <input type="text"
+                           name="city"
+                           class="form-control amare-input"
+                           placeholder="Unesite grad"
+                           required>
+
+                    <label class="form-label mt-3">
+                        Tip kuhinje
+                    </label>
+
+                    <input type="text"
+                           name="cuisine"
+                           class="form-control amare-input"
+                           placeholder="Npr. Mediteranska"
+                           required>
+
+                    <!-- SLIKA RESTORANA -->
+                    <label class="form-label mt-3">
+                        URL slike restorana
+                    </label>
+
+                    <input type="url"
+                           name="imageUrl"
+                           class="form-control amare-input"
+                           placeholder="https://example.com/slika.jpg">
+
+                    <small class="text-muted d-block mt-2">
+                        Unesite direktan link fotografije restorana.
+                    </small>
+
+                    <label class="form-label mt-3">
+                        Ocjena (1–5)
+                    </label>
+
+                    <input type="number"
+                           step="0.1"
+                           min="1"
+                           max="5"
+                           name="rating"
+                           class="form-control amare-input"
+                           placeholder="4.9"
+                           required>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-quiet"
+                            data-bs-dismiss="modal">
+                        Odustani
+                    </button>
+
+                    <button type="submit" class="btn btn-amare">
+                        Sačuvaj restoran
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
+
 </div>
+
+<!-- FOOTER -->
+<footer class="amare-footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            <a class="footer-brand" href="/a">
+                AMARÉ<span>.</span>
+            </a>
+
+            <p>
+                Trenuci za pamćenje.
+            </p>
+        </div>
+
+        <div class="footer-meta">
+
+            <span>THE ART OF DINING</span>
+
+            <span>
+                © <span id="currentYear"></span> AMARÉ
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/amare.js}"></script>
 
 </body>
 </html>

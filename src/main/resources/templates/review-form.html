@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="bs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AMARÉ | Vaš utisak</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#541f29">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+    <link th:href="@{/css/amare.css}" rel="stylesheet">
+
+    <script>
+        (function () {
+            const saved = localStorage.getItem('amare-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+
+<body>
+
+<!-- NAVIGACIJA -->
+<nav class="navbar navbar-expand-lg amare-nav sticky-top">
+
+    <div class="container">
+
+        <a class="navbar-brand amare-brand" href="/a">
+            AMARÉ<span>.</span>
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNav"
+                aria-controls="mainNav"
+                aria-expanded="false"
+                aria-label="Otvori navigaciju">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+
+            <ul class="navbar-nav align-items-lg-center me-lg-4">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/a">Restorani</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/b">Meni</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/reviews">Utisci</a>
+                </li>
+
+            </ul>
+
+            <button class="theme-toggle" id="themeToggle" type="button">
+
+                <i class="fa-solid fa-moon theme-icon"></i>
+
+                <span class="theme-label">Tamni način</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<main class="review-form-page">
+
+    <div class="container">
+
+        <!-- POVRATAK -->
+        <div class="form-back" data-reveal>
+
+            <a th:href="@{/reviews}">
+                <i class="fa-solid fa-arrow-left"></i>
+                Sve recenzije
+            </a>
+
+            <span class="eyebrow">
+                VAŠ GLAS NAM ZNAČI
+            </span>
+
+        </div>
+
+        <div class="review-form-layout">
+
+            <!-- LIJEVA STRANA -->
+            <aside class="review-aside" data-reveal>
+
+                <span class="eyebrow light-eyebrow">
+                    <span></span>
+                    AMARÉ EXPERIENCE
+                </span>
+
+                <h1>
+                    Podijelite<br>
+                    <em>svoj doživljaj.</em>
+                </h1>
+
+                <p>
+                    Svaka priča nam pomaže da budemo još bolji.
+                    Recite nam šta vam se posebno svidjelo.
+                </p>
+
+                <div class="aside-quote">
+
+                    <span>“</span>
+
+                    <p>
+                        Najljepši kompliment je gost
+                        koji nam se ponovo vrati.
+                    </p>
+
+                </div>
+
+            </aside>
+
+            <!-- DESNA STRANA - FORMA -->
+            <section class="review-form-card" data-reveal>
+
+                <div class="form-card-heading">
+
+                    <span class="eyebrow">
+                        VAŠA RECENZIJA
+                    </span>
+
+                    <h2 class="serif"
+                        th:text="${reviewForm.id == null ? 'Novo iskustvo' : 'Izmjena recenzije'}">
+                        Novo iskustvo
+                    </h2>
+
+                    <p>
+                        Popunite podatke i podijelite svoje mišljenje.
+                    </p>
+
+                </div>
+
+                <form
+                        th:action="${reviewForm.id == null ? '/reviews' : '/reviews/update/' + reviewForm.id}"
+                        th:object="${reviewForm}"
+                        method="post">
+
+                    <!-- IME -->
+                    <div class="mb-3">
+
+                        <label class="form-label" for="author">
+                            Ime i prezime
+                        </label>
+
+                        <input
+                                id="author"
+                                type="text"
+                                th:field="*{author}"
+                                class="form-control amare-input"
+                                placeholder="Kako se zovete?"
+                                required>
+
+                    </div>
+
+                    <!-- RESTORAN -->
+                    <div class="mb-3">
+
+                        <label class="form-label" for="restaurantId">
+                            Restoran
+                        </label>
+
+                        <select
+                                id="restaurantId"
+                                th:field="*{restaurantId}"
+                                class="form-select amare-input"
+                                required>
+
+                            <option value="" disabled>
+                                Izaberite restoran
+                            </option>
+
+                            <option
+                                    th:each="rest : ${restaurants}"
+                                    th:value="${rest.id}"
+                                    th:text="${rest.name}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- OCJENA -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Vaša ocjena
+                        </label>
+
+                        <div class="rating-picker"
+                             role="radiogroup"
+                             aria-label="Ocjena od jedne do pet zvjezdica">
+
+                            <input
+                                    type="radio"
+                                    id="rating5"
+                                    th:field="*{rating}"
+                                    value="5">
+
+                            <label for="rating5" title="5 zvjezdica">
+                                <i class="fa-solid fa-star"></i>
+                            </label>
+
+                            <input
+                                    type="radio"
+                                    id="rating4"
+                                    th:field="*{rating}"
+                                    value="4">
+
+                            <label for="rating4" title="4 zvjezdice">
+                                <i class="fa-solid fa-star"></i>
+                            </label>
+
+                            <input
+                                    type="radio"
+                                    id="rating3"
+                                    th:field="*{rating}"
+                                    value="3">
+
+                            <label for="rating3" title="3 zvjezdice">
+                                <i class="fa-solid fa-star"></i>
+                            </label>
+
+                            <input
+                                    type="radio"
+                                    id="rating2"
+                                    th:field="*{rating}"
+                                    value="2">
+
+                            <label for="rating2" title="2 zvjezdice">
+                                <i class="fa-solid fa-star"></i>
+                            </label>
+
+                            <input
+                                    type="radio"
+                                    id="rating1"
+                                    th:field="*{rating}"
+                                    value="1">
+
+                            <label for="rating1" title="1 zvjezdica">
+                                <i class="fa-solid fa-star"></i>
+                            </label>
+
+                        </div>
+
+                        <small class="form-hint">
+                            Odaberite broj zvjezdica.
+                        </small>
+
+                    </div>
+
+                    <!-- KOMENTAR -->
+                    <div class="mb-4">
+
+                        <label class="form-label" for="comment">
+                            Vaš komentar
+                        </label>
+
+                        <textarea
+                                id="comment"
+                                th:field="*{comment}"
+                                class="form-control amare-input"
+                                rows="5"
+                                placeholder="Opišite hranu, uslugu i atmosferu..."
+                                required>
+                        </textarea>
+
+                    </div>
+
+                    <!-- DUGMAD -->
+                    <div class="form-actions">
+
+                        <a th:href="@{/reviews}" class="btn btn-quiet">
+                            Odustani
+                        </a>
+
+                        <button type="submit" class="btn btn-amare">
+
+                            Sačuvaj recenziju
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="amare-footer">
+
+    <div class="container footer-inner">
+
+        <div>
+
+            <a class="footer-brand" href="/a">
+                AMARÉ<span>.</span>
+            </a>
+
+            <p>
+                Trenuci za pamćenje.
+            </p>
+
+        </div>
+
+        <div class="footer-meta">
+
+            <span>THE ART OF DINING</span>
+
+            <span>
+                © <span id="currentYear"></span> AMARÉ
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/amare.js}"></script>
+
+</body>
+</html>
